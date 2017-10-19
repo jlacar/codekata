@@ -8,4 +8,8 @@ public class Dictionary {
         return size == 0;
     }
 
+    public void add(String... words) {
+        
+    }
+
 }

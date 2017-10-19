@@ -23,4 +23,9 @@ The first test will often get refactored away later but you have to start somewh
 Next, we refactor. The test name was left as ``test()`` so we give it a better name. We try ``new_Dictionary_is_empty`` and see that the method name ``size()`` reveals too much implementation detail. Let's try to make that more abstract.
 
 The first refactoring suggests that maybe we took a little too big of a first step. The refactored code takes a smaller step by calling the Dictionary default constructor. Now the ``newDictionary()`` method we initially had isn't even used. We'll keep it anyway because we still want to come up with a high-level API for adding entries to the Dictionary.
- 
+
+### The second test
+
+Now that we have an initial question we can ask a ``Dictionary`` object, we think about what kind of "conversation" we'd like to have that would require us to ask that question. That is, what is the context for calling the ``isEmpty()`` method? Is this really a useful capability to add to the Dictionary API? Will this eventually lead us to implementing a bloom filter? How?
+
+Let's try to answer these questions by adding a new test that asserts the opposite of the first test: when words are added, the dictionary should not be empty. We see the test fails. That's good.
