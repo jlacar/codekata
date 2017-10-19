@@ -21,4 +21,6 @@ Let's think about what we want to do with a Dictionary. Adding entries will natu
 The first test will often get refactored away later but you have to start somewhere, even if it's the wrong place. The first test created asserts that a new Dictionary will have no entries. So, we assert that the ``size()`` is 0 and make sure the implementation code is such that the test fails. Making the test pass is a simple matter of returning the correct value of 0.
 
 Next, we refactor. The test name was left as ``test()`` so we give it a better name. We try ``new_Dictionary_is_empty`` and see that the method name ``size()`` reveals too much implementation detail. Let's try to make that more abstract.
+
+The first refactoring suggests that maybe we took a little too big of a first step. The refactored code takes a smaller step by calling the Dictionary default constructor. Now the ``newDictionary()`` method we initially had isn't even used. We'll keep it anyway because we still want to come up with a high-level API for adding entries to the Dictionary.
  

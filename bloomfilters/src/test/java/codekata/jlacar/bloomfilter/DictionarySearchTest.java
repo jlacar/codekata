@@ -8,8 +8,8 @@ public class DictionarySearchTest {
 
     @Test
     public void new_Dictionary_is_empty() {
-        Dictionary dict = newDictionary("");
-        assertEquals(0, dict.isEmpty());
+        Dictionary dict = new Dictionary();
+        assertTrue(dict.isEmpty());
     }
     
     private Dictionary newDictionary(String... entries) {
