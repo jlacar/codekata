@@ -7,16 +7,16 @@ import org.junit.Test;
 public class DictionarySearchTest {
 
     @Test
-    public void new_Dictionary_is_empty() {
+    public void it_is_initially_empty() {
         Dictionary dict = new Dictionary();
         
         assertTrue(dict.isEmpty());
     }
     
     @Test
-    public void adding_words_makes_it_not_empty() throws Exception {
+    public void it_is_not_empty_after_inserting_words() throws Exception {
         Dictionary dict = new Dictionary();
-        dict.add("mom", "apple", "cat", "severe", "appease");
+        dict.insert("mom", "apple", "cat", "severe", "appease");
         
         assertFalse(dict.isEmpty());
     }
