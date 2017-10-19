@@ -2,8 +2,10 @@ package codekata.jlacar.bloomfilter;
 
 public class Dictionary {
 
-    public int size() {
-        return 0;
+    private int size;
+    
+    public boolean isEmpty() {
+        return size == 0;
     }
 
 }

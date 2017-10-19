@@ -7,9 +7,9 @@ import org.junit.Test;
 public class DictionarySearchTest {
 
     @Test
-    public void test() {
+    public void new_Dictionary_is_empty() {
         Dictionary dict = newDictionary("");
-        assertEquals(0, dict.size());
+        assertEquals(0, dict.isEmpty());
     }
     
     private Dictionary newDictionary(String... entries) {
