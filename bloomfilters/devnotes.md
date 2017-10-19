@@ -28,4 +28,8 @@ The first refactoring suggests that maybe we took a little too big of a first st
 
 Now that we have an initial question we can ask a ``Dictionary`` object, we think about what kind of "conversation" we'd like to have that would require us to ask that question. That is, what is the context for calling the ``isEmpty()`` method? Is this really a useful capability to add to the Dictionary API? Will this eventually lead us to implementing a bloom filter? How?
 
-Let's try to answer these questions by adding a new test that asserts the opposite of the first test: when words are added, the dictionary should not be empty. We see the test fails. That's good.
+Let's try to answer these questions by adding a new test that asserts the opposite of the first test: when words are added, the dictionary should not be empty. We see the test fails. That's good. Now we need to add some implementation code to make it work.
+
+We need a data structure to hold our words. Let's try using a TreeMap. Let's just get the test to pass and worry about other considerations later. We put the words into the dictionary and fix the code in ``isEmpty()`` to work with the ``dict`` field instead of ``size``.
+
+Running the tests, we get a green bar. Success!
