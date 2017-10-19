@@ -16,4 +16,7 @@ So, let's start with a test called DictionarySearchTest.
 
 Let's think about what we want to do with a Dictionary. Adding entries will naturally be our first task. Again, developers often get caught up in the details of this and will often want to jump right to file I/O operations. Let's back up from that because that has proven to be a deep  rabbit hole in the past. Instead, let's define a more abstract way to add entries to the dictionary.
 
+### The first test
+
+The first test will often get refactored away later but you have to start somewhere, even if it's the wrong place. The first test created asserts that a new Dictionary will have no entries. So, we assert that the ``size()`` is 0 and make sure the implementation code is such that the test fails.
  
