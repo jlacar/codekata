@@ -8,7 +8,12 @@ public class DictionarySearchTest {
 
     @Test
     public void test() {
-        fail("Not yet implemented");
+        Dictionary dict = newDictionary("");
+        assertEquals(0, dict.size());
     }
-
+    
+    private Dictionary newDictionary(String... entries) {
+        return new Dictionary();
+    }
+    
 }
