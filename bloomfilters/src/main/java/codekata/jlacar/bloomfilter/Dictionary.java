@@ -6,15 +6,19 @@ import java.util.TreeMap;
 public class Dictionary {
 
     private Map<String, String> dict = new TreeMap<>();
-    
+        
     public boolean isEmpty() {
         return dict.isEmpty();
     }
 
-    public void insert(String... words) {
+    public final void insert(String... words) {
         for (String w : words) {
             dict.put(w, null);
         }
+    }
+
+    public boolean contains(String word) {
+        return false; // dict.containsKey(word);
     }
 
 }
