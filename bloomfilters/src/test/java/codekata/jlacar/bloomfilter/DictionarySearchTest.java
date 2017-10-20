@@ -23,11 +23,21 @@ public class DictionarySearchTest {
     }
 
     @Test
-    public void it_can_search_definitively() throws Exception {
+    public void it_can_check_if_word_is_definitely_contained() throws Exception {
         Dictionary dict = minimalDictionary();
-        assertTrue("Dictionary contains 'mom'", dict.contains("mom"));
+        
+        assertTrue("minimal dictionary contains 'mom'", dict.contains("mom"));
+        
     }
 
+    @Test 
+    public void it_can_check_if_word_is_definitely_not_contained() throws Exception {
+        Dictionary dict = minimalDictionary();
+        
+//        dict.insert("ball");  // uncomment to make this test fail
+        assertFalse("minimal dictionary does not contain 'ball'", dict.contains("ball"));
+    }
+    
     // TODO
     @Ignore
     @Test

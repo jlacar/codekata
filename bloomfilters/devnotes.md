@@ -34,7 +34,7 @@ We need a data structure to hold our words. Let's try using a TreeMap. Let's jus
 
 Running the tests, we get a green bar. Success! Now we refactor. First we delete the ``size`` field because it's no longer needed. Next, we look at the test names and see that there is not much consistency in the names. Let's rename them to establish some consistency. Let's use a more BDD style naming convention. After renaming the second test, we see that we used "inserting" in the test name but we called ``dict.add()`` in the body. Let's rename the method ``add()`` to ``insert()`` since we seem to favor the latter term.
 
-### The third test
+### The third and fourth tests
 
 Now we go back to the questions we asked before and try to expand on the context for using a Dictionary object. After we have inserted words in a Dictionary, we want to do a search. This now brings us closer to needing a bloom filter. However, before we go there, we also need to have a way to definitely check if a word is in the dictionary. Since a bloom filter can return a false positive, we need to be able to compare the result of a query that uses a bloom filter with the result of a query that checks the full list.
 
@@ -43,3 +43,7 @@ So, we first add a test for a method that will give us a definite yes/no answer 
 We see the test fail.
 
 Now we fix implementation so the test passes. Success!
+
+We refactor and rename the test methods and re-run the tests to make sure they still pass.
+
+At this point, we see that since the third test checks for "definitely contains," we need a fourth test for "definitely does not contain." We short-circuit the TDD cycle for now and go ahead and add that test, see it fail by purposely adding a call to insert(), then make the test pass by commenting out the bogus setup statement. We keep it commented out so others can see what we did to make the test fail first.
