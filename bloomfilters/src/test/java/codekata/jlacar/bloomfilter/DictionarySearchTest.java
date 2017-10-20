@@ -1,14 +1,43 @@
 package codekata.jlacar.bloomfilter;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.google.common.hash.BloomFilter;
+import com.google.common.hash.Funnel;
+import com.google.common.hash.PrimitiveSink;
+
 public class DictionarySearchTest {
 
+    private static final double TINY_PROBABILITY = 0.01;
+    
+    private BloomFilter<String> baselineBloom;
     private Dictionary dict;
     
+    private String wordThatIsThere;
+    private String wordThatIsntThere;
+
+    @Before
+    public void setupDictionaries() {
+        String[] words = {"mom", "apple", "cat", "sever", "apart", "moment", "applesauce", "applet", "category", "catalyst",
+                "momentum", "several", "severity"};
+        
+        wordThatIsThere = words[1];
+        wordThatIsntThere = "baseball";
+        
+        dict = new Dictionary();
+        dict.insert(words);
+        
+        baselineBloom = BloomFilter.create(StringFunnel.INSTANCE, words.length, TINY_PROBABILITY);
+        for (String w : words) {
+            baselineBloom.put(w);
+        }
+    }
+
     @Test
     public void it_is_initially_empty() {
         dict = new Dictionary();
@@ -26,42 +55,34 @@ public class DictionarySearchTest {
 
     @Test
     public void it_can_check_if_word_is_definitely_contained() throws Exception {
-        dict = minimalDictionary();
-        
         assertTrue("minimal dictionary contains 'mom'", dict.contains("mom"));
-        
     }
 
     @Test 
     public void it_can_check_if_word_is_definitely_not_contained() throws Exception {
-        dict = minimalDictionary();
-        
 //        dict.insert("ball");  // uncomment to make this test fail
         assertFalse("minimal dictionary does not contain 'ball'", dict.contains("ball"));
     }
 
     @Test
     public void it_definitely_does_not_contain_word_when_bloom_filter_says_no() throws Exception {
-        dict = minimalDictionary();
-        
-        assertFalse("minimal dictionary does not contain 'ball' (bloom)", 
-                dict.mayContain("ball"));
+        assertThat(baselineBloom.mightContain(wordThatIsntThere), is(false));
+        assertThat(dict.mayContain(wordThatIsntThere), is(false));
     }
     
     @Test
     public void it_probably_contains_word_when_bloom_filter_says_maybe() throws Exception {
-        dict = minimalDictionary();
-        
-        assertTrue("minimal dictionary does not contain 'ball' (bloom)", 
-                dict.mayContain("ball"));
+        assertThat(baselineBloom.mightContain(wordThatIsThere), is(true));
+        assertThat(dict.mayContain(wordThatIsThere), is(true));
     }
+        
+    private enum StringFunnel implements Funnel<String> {
+        INSTANCE;
 
-    private Dictionary minimalDictionary() {
-        Dictionary dict = new Dictionary();
-        dict.insert("mom", "apple", "cat", "sever", "apart", "moment", "applesauce", "applet", "category", "catalyst",
-                "momentum", "several", "severity");
-
-        return dict;
+        @Override
+        public void funnel(String word, PrimitiveSink into) {
+            into.putUnencodedChars(word);
+        }
     }
 
 }

@@ -64,3 +64,4 @@ Looking around, we find that the Google Guava library already has a ``BloomFilte
 
 Looking at the Guava implementation, we get validation that we've chosen a good name for the probabilistic query because the Guava implementation has a similar name, ``mightContain()``. Nice to know we're on the same wavelength as the Guava guys.
 
+We create a ``baselineBloom`` fixture to the test and refactor our tests. We configure the Guava BloomFilter to have a very small probability for getting a false positive result. We see that the sixth test still fails on the assertion with our Dictionary class so it looks like the baselineBloom that uses the Guava BloomFilter at least appears to be a good basis for comparison.
