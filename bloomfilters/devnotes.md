@@ -59,3 +59,8 @@ We start with a dictionary that has some known words already inserted into it. T
 The fifth test drives our choice for the probabilistic query method's name, ``mayContain(String word)``. We start with the "definitely not contained" scenario because in this case, we don't have to deal with false positives. By making the implementation spuriously return ``false``, we can make the test pass even though we know the implementation is wrong. 
 
 Adding a failing sixth test will force us to write a proper implementation of ``mayContain()``.
+
+Looking around, we find that the Google Guava library already has a ``BloomFilter<T>`` implementation. We decide to use this as a baseline for comparison with our own implementation so we add a new dependency in the pom.xml. We notice that the JUnit dependency is still at 3.x so we also update that to version 4.12.
+
+Looking at the Guava implementation, we get validation that we've chosen a good name for the probabilistic query because the Guava implementation has a similar name, ``mightContain()``. Nice to know we're on the same wavelength as the Guava guys.
+
