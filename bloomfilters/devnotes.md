@@ -41,3 +41,5 @@ Now we go back to the questions we asked before and try to expand on the context
 So, we first add a test for a method that will give us a definite yes/no answer instead of a definite no and maybe which a query based on a bloom filter would return. We add the test for the probabilistic search as a TODO that is ignored for now.
 
 We see the test fail.
+
+Now we fix implementation so the test passes. Success!

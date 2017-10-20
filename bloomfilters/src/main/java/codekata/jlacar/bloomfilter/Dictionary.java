@@ -18,7 +18,7 @@ public class Dictionary {
     }
 
     public boolean contains(String word) {
-        return false; // dict.containsKey(word);
+        return dict.containsKey(word);
     }
 
 }
