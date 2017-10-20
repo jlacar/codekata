@@ -76,13 +76,4 @@ public class DictionarySearchTest {
         assertThat(dict.mayContain(wordThatIsThere), is(true));
     }
         
-    private enum StringFunnel implements Funnel<String> {
-        INSTANCE;
-
-        @Override
-        public void funnel(String word, PrimitiveSink into) {
-            into.putUnencodedChars(word);
-        }
-    }
-
 }
