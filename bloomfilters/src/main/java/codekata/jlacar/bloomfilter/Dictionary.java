@@ -21,4 +21,8 @@ public class Dictionary {
         return dict.containsKey(word);
     }
 
+    public boolean mayContain(String word) {
+        return false;
+    }
+
 }

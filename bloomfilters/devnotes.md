@@ -47,3 +47,15 @@ Now we fix implementation so the test passes. Success!
 We refactor and rename the test methods and re-run the tests to make sure they still pass.
 
 At this point, we see that since the third test checks for "definitely contains," we need a fourth test for "definitely does not contain." We short-circuit the TDD cycle for now and go ahead and add that test, see it fail by purposely adding a call to insert(), then make the test pass by commenting out the bogus setup statement. We keep it commented out so others can see what we did to make the test fail first.
+
+## The context for testing a bloom filter
+
+The first four test and implementation code gives us a basic context for developing a sequence of actions on a dictionary that will demonstrate how a bloom filter works. 
+
+We start with a dictionary that has some known words already inserted into it. Then we'll make a probabilistic query that uses a bloom filter and compare the result we get with what a definitive query using a full search returns.
+
+### The fifth and sixth tests
+
+The fifth test drives our choice for the probabilistic query method's name, ``mayContain(String word)``. We start with the "definitely not contained" scenario because in this case, we don't have to deal with false positives. By making the implementation spuriously return ``false``, we can make the test pass even though we know the implementation is wrong. 
+
+Adding a failing sixth test will force us to write a proper implementation of ``mayContain()``.
