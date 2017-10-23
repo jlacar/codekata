@@ -76,4 +76,8 @@ public class DictionarySearchTest {
         assertThat(dict.mayContain(wordThatIsThere), is(true));
     }
         
+    @Test
+    public void it_can_be_instantiated_with_a_bloom_filter_implementation() throws Exception {
+        dict = new Dictionary(new CustomBloomFilter());
+    }
 }

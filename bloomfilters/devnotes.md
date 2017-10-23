@@ -90,3 +90,5 @@ private static void addWords(List<String> words, Dictionary... dicts) {
 ```
 
 This now shows a need to create a separate BloomFilter class or interface whose implementations we can provide to a dictionary.
+
+Now that we have a rough idea of where we're heading, we use tests to drive out more details in the design. We start by creating a test that exercises a Dictionary constructor that takes a BloomFilter argument. This fails to compile, of course, so we add the new constructor to the Dictionary class. Before we can do that, we need to define some stubs for the BloomFilter interface and implementation.
