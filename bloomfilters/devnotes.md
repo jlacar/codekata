@@ -67,3 +67,26 @@ Looking at the Guava implementation, we get validation that we've chosen a good 
 We create a ``baselineBloom`` fixture to the test and refactor our tests. We configure the Guava BloomFilter to have a very small probability for getting a false positive result. We see that the sixth test still fails on the assertion with our Dictionary class so it looks like the baselineBloom that uses the Guava BloomFilter at least appears to be a good basis for comparison.
 
 We make the sixth test pass by implementing our Dictionary bloom filter as a Guava bloom filter.
+
+## Extending the Dictionary design
+
+Now that we have a baseline Dictionary implementation that uses a third-party (Guava) bloom filter, we try to map our way forward using code we'd like to be able to write. First, we imagine what it would look like if we had several different bloom filter implementations that we wanted to compare.
+
+```java
+// create different bloom filters: guavaBloom, customBloom
+Dictionary gauvaDict = new Dictionary(guavaBloom);
+Dictionary customDict = new Dictionary(customBloom);
+
+List<String> words = readWords();
+addWords(words, guavaDict, customDict);
+
+...
+
+private static void addWords(List<String> words, Dictionary... dicts) {
+   for (Dictionary d : dicts) {
+      d.addAll(words);
+   }
+}
+```
+
+This now shows a need to create a separate BloomFilter class or interface whose implementations we can provide to a dictionary.
