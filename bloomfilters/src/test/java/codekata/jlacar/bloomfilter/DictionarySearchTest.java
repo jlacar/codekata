@@ -81,3 +81,11 @@ public class DictionarySearchTest {
         dict = new Dictionary(new CustomBloomFilter());
     }
 }
+
+interface MyBloomFilter {
+    
+}
+
+class CustomBloomFilter implements MyBloomFilter {
+    
+}

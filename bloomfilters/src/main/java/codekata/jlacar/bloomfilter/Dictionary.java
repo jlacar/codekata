@@ -22,6 +22,9 @@ public class Dictionary {
         bloomFilter = BloomFilter.create(StringFunnel.INSTANCE, size);
     }
     
+    public Dictionary(MyBloomFilter customBloomFilter) {
+    }
+
     public boolean isEmpty() {
         return dict.isEmpty();
     }

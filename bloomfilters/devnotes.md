@@ -92,3 +92,7 @@ private static void addWords(List<String> words, Dictionary... dicts) {
 This now shows a need to create a separate BloomFilter class or interface whose implementations we can provide to a dictionary.
 
 Now that we have a rough idea of where we're heading, we use tests to drive out more details in the design. We start by creating a test that exercises a Dictionary constructor that takes a BloomFilter argument. This fails to compile, of course, so we add the new constructor to the Dictionary class. Before we can do that, we need to define some stubs for the BloomFilter interface and implementation.
+
+We start by doing a quick fix and create a package private CustomBloomFilter class in the test class itself. This is a smaller step than creating one in the production code area. At this point, we're still experimenting and seeing if things work. It's the simplest thing that could work.
+
+Next, we try to add a ``BloomFilter`` interface but find that it conflicts with the Guava BloomFilter class name that we used in our previous tests. The name conflict create a lot of compiler errors so rather than trying to fix all of them, we use a different name, ``MyBloomFilter``, to temporarily address the name conflict. Later on, we will wrap the Guava BloomFilter in an implementation of our interface so it's easier to rename ``MyBloomFilter`` to something better and not break too many things at one go.
