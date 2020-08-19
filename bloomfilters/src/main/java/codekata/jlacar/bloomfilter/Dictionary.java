@@ -12,17 +12,18 @@ public class Dictionary {
     private static int DEFAULT_BLOOM_SIZE = 500;
     
     private Map<String, String> dict = new TreeMap<>();
-    private BloomFilter<String> bloomFilter;
+    private MyBloomFilter bloomFilter;
     
     public Dictionary() {
-        bloomFilter = BloomFilter.create(StringFunnel.INSTANCE, DEFAULT_BLOOM_SIZE);
+        bloomFilter = new GuavaBloomFilter(DEFAULT_BLOOM_SIZE);
     }
     
     public Dictionary(int size) {
-        bloomFilter = BloomFilter.create(StringFunnel.INSTANCE, size);
+        bloomFilter = new GuavaBloomFilter(size);
     }
     
-    public Dictionary(MyBloomFilter customBloomFilter) {
+    public Dictionary(MyBloomFilter filter) {
+        this.bloomFilter = filter;
     }
 
     public boolean isEmpty() {

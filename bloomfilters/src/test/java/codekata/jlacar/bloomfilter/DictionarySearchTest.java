@@ -1,41 +1,35 @@
 package codekata.jlacar.bloomfilter;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-
-import com.google.common.hash.BloomFilter;
-import com.google.common.hash.Funnel;
-import com.google.common.hash.PrimitiveSink;
 
 public class DictionarySearchTest {
 
     private static final double TINY_PROBABILITY = 0.01;
-    
-    private BloomFilter<String> baselineBloom;
+
+    private MyBloomFilter baselineBloom;
     private Dictionary dict;
-    
+
     private String wordThatIsThere;
     private String wordThatIsntThere;
 
     @Before
     public void setupDictionaries() {
-        String[] words = {"mom", "apple", "cat", "sever", "apart", "moment", "applesauce", "applet", "category", "catalyst",
-                "momentum", "several", "severity"};
-        
+        String[] words = { "mom", "apple", "cat", "sever", "apart", "moment", "applesauce", "applet", "category",
+                "catalyst", "momentum", "several", "severity" };
+
         wordThatIsThere = words[1];
         wordThatIsntThere = "baseball";
-        
-        dict = new Dictionary();
+
+        baselineBloom = new GuavaBloomFilter(words.length, TINY_PROBABILITY);
+
+        dict = new Dictionary(baselineBloom);
         dict.insert(words);
-        
-        baselineBloom = BloomFilter.create(StringFunnel.INSTANCE, words.length, TINY_PROBABILITY);
-        for (String w : words) {
-            baselineBloom.put(w);
-        }
     }
 
     @Test
@@ -58,9 +52,9 @@ public class DictionarySearchTest {
         assertTrue("minimal dictionary contains 'mom'", dict.contains("mom"));
     }
 
-    @Test 
+    @Test
     public void it_can_check_if_word_is_definitely_not_contained() throws Exception {
-//        dict.insert("ball");  // uncomment to make this test fail
+        // dict.insert("ball"); // uncomment to make this test fail
         assertFalse("minimal dictionary does not contain 'ball'", dict.contains("ball"));
     }
 
@@ -69,13 +63,13 @@ public class DictionarySearchTest {
         assertThat(baselineBloom.mightContain(wordThatIsntThere), is(false));
         assertThat(dict.mayContain(wordThatIsntThere), is(false));
     }
-    
+
     @Test
     public void it_probably_contains_word_when_bloom_filter_says_maybe() throws Exception {
         assertThat(baselineBloom.mightContain(wordThatIsThere), is(true));
         assertThat(dict.mayContain(wordThatIsThere), is(true));
     }
-        
+
     @Test
     public void it_can_be_instantiated_with_a_bloom_filter_implementation() throws Exception {
         dict = new Dictionary(new CustomBloomFilter());
@@ -83,9 +77,44 @@ public class DictionarySearchTest {
 }
 
 interface MyBloomFilter {
-    
+    public boolean mightContain(String word);
+    public boolean put(String word);
 }
 
 class CustomBloomFilter implements MyBloomFilter {
+
+    @Override
+    public boolean mightContain(String word) {
+        return false;
+    }
+
+    @Override
+    public boolean put(String word) {
+        return false;
+    }
+
+}
+
+class GuavaBloomFilter implements MyBloomFilter {
+
+    private final com.google.common.hash.BloomFilter<String> filter;
+
+    GuavaBloomFilter(int expectedInsertions) {
+        filter = com.google.common.hash.BloomFilter.create(StringFunnel.INSTANCE, expectedInsertions);
+    }
     
+    GuavaBloomFilter(int expectedInsertions, double fpp) {
+        filter = com.google.common.hash.BloomFilter.create(StringFunnel.INSTANCE, expectedInsertions,
+                fpp);
+    }
+
+    @Override
+    public boolean mightContain(String word) {
+        return filter.mightContain(word);
+    }
+
+    @Override
+    public boolean put(String word) {
+        return filter.put(word);
+    }
 }
